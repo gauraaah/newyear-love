@@ -65,3 +65,30 @@ function startFireworks() {
   setInterval(createHeart, 300);
   animate();
 }
+const confessionText = [
+  "Gaurav loved her deeply.",
+  "He made mistakes.",
+  "He regrets every moment that hurt her.",
+  "But his heart still chooses her."
+];
+
+let textIndex = 0;
+let charIndex = 0;
+
+function typeWriter() {
+  const el = document.getElementById("typeText");
+  if (!el) return;
+
+  if (charIndex < confessionText[textIndex].length) {
+    el.innerHTML += confessionText[textIndex].charAt(charIndex);
+    charIndex++;
+    setTimeout(typeWriter, 50);
+  } else {
+    el.innerHTML += "<br>";
+    charIndex = 0;
+    textIndex++;
+    if (textIndex < confessionText.length) {
+      setTimeout(typeWriter, 800);
+    }
+  }
+}
