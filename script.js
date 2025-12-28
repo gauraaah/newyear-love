@@ -10,8 +10,12 @@ document.body.addEventListener("click", () => {
     scenes[current].classList.remove("active");
     current++;
     scenes[current].classList.add("active");
+    if (scenes[current].id === "scene4") {
+  setTimeout(typeWriter, 500);
+}
 
-    if (current === scenes.length - 1) {
+
+   if (current === scenes.length - 1) {
       startFireworks();
     }
   }
