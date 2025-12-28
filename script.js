@@ -24,37 +24,44 @@ function startFireworks() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  let particles = [];
+  let hearts = [];
 
-  function createFirework() {
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height / 2;
-    for (let i = 0; i < 60; i++) {
-      particles.push({
-        x,
-        y,
-        vx: (Math.random() - 0.5) * 4,
-        vy: (Math.random() - 0.5) * 4,
-        alpha: 1
-      });
-    }
+  function createHeart() {
+    const x = Math.random() * canvas.width;
+    const y = canvas.height;
+    hearts.push({
+      x,
+      y,
+      size: Math.random() * 6 + 4,
+      speed: Math.random() * 1.5 + 0.5,
+      alpha: 1
+    });
+  }
+
+  function drawHeart(h) {
+    ctx.fillStyle = `rgba(255,105,180,${h.alpha})`;
+    ctx.beginPath();
+    ctx.moveTo(h.x, h.y);
+    ctx.bezierCurveTo(h.x - h.size, h.y - h.size,
+                      h.x - h.size * 2, h.y + h.size / 2,
+                      h.x, h.y + h.size * 2);
+    ctx.bezierCurveTo(h.x + h.size * 2, h.y + h.size / 2,
+                      h.x + h.size, h.y - h.size,
+                      h.x, h.y);
+    ctx.fill();
   }
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      ctx.fillStyle = `rgba(255,182,193,${p.alpha})`;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-      ctx.fill();
-      p.x += p.vx;
-      p.y += p.vy;
-      p.alpha -= 0.01;
+    hearts.forEach(h => {
+      drawHeart(h);
+      h.y -= h.speed;
+      h.alpha -= 0.003;
     });
-    particles = particles.filter(p => p.alpha > 0);
+    hearts = hearts.filter(h => h.alpha > 0);
     requestAnimationFrame(animate);
   }
 
-  setInterval(createFirework, 800);
+  setInterval(createHeart, 300);
   animate();
 }
